@@ -7,22 +7,12 @@ import { Button } from '@repo/design-system/components/ui/button';
  * Displays a button or a component that looks like a button.
  */
 const meta = {
-  title: 'ui/Button',
+  title: 'Components/Button',
   component: Button,
-  tags: ['autodocs'],
-  argTypes: {
-    children: {
-      control: 'text',
-    },
-  },
   parameters: {
     layout: 'centered',
   },
-  args: {
-    variant: 'default',
-    size: 'default',
-    children: 'Button',
-  },
+  tags: ['autodocs'],
 } satisfies Meta<typeof Button>;
 
 export default meta;
@@ -32,7 +22,12 @@ type Story = StoryObj<typeof meta>;
 /**
  * The default form of the button, used for primary actions and commands.
  */
-export const Default: Story = {};
+export const Primary: Story = {
+  args: {
+    variant: 'default',
+    children: 'Button',
+  },
+};
 
 /**
  * Use the `outline` button to reduce emphasis on secondary actions, such as
@@ -61,6 +56,7 @@ export const Ghost: Story = {
 export const Secondary: Story = {
   args: {
     variant: 'secondary',
+    children: 'Button',
   },
 };
 

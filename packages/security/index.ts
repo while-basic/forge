@@ -25,15 +25,20 @@ export const secure = async (
     rules: [
       // Protect against common attacks with Arcjet Shield
       shield({
-        // Will block requests. Use "DRY_RUN" to log only
-        mode: 'LIVE',
+        // Use "DRY_RUN" during development
+        mode: process.env.NODE_ENV === 'production' ? 'LIVE' : 'DRY_RUN',
       }),
       // Other rules are added in different routes
     ],
   });
 
   const req = sourceRequest ?? (await request());
-  const aj = base.withRule(detectBot({ mode: 'LIVE', allow }));
+  const aj = base.withRule(
+    detectBot({
+      mode: process.env.NODE_ENV === 'production' ? 'LIVE' : 'DRY_RUN',
+      allow,
+    })
+  );
   const decision = await aj.protect(req);
 
   if (decision.isDenied()) {
@@ -49,6 +54,6 @@ export const secure = async (
       throw new Error('Rate limit exceeded');
     }
 
-    throw new Error('Access denied');
+    throw new Error('Request denied');
   }
 };
